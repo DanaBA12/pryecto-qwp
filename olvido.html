@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/styles.css">
+    <title>Olvidé mi Contraseña</title>
+</head>
+<body>
+
+    <h2>Olvidé mi Contraseña</h2>
+    <form id="Olvide contra">
+        <label for="correo olvidado">Correo Electrónico:</label>
+        <input type="email" id="correo olvidado" required>
+        <span class="error" id="errorCorreoOlvidar"></span>
+        <br><br>
+        
+        <label for="nuevacontra">Nueva Contraseña:</label>
+        <input type="password" id="nuevacontra" required>
+        <span class="error" id="errornuevacontra"></span>
+        <br><br>
+        
+        <label for="confirmarnuevacontra">Confirmar Nueva Contraseña:</label>
+        <input type="password" id="confirmarnuevacontra" required>
+        <span class="error" id="errorConfirmarnuevacontra"></span>
+        <br><br>
+        
+        <button type="submit">Restablecer Contraseña</button>
+    </form>
+    <p><a href="iniciar.html">Volver a Iniciar Sesión</a></p>
+
+
+<script>
+    document.getElementById('Olvide contra').addEventListener('submit', function(event) {
+        event.preventDefault();
+        let correo = document.getElementById('correo olvidado').value;
+        let nuevacontra = document.getElementById('nuevacontra').value;
+        let confirmarnuevacontra = document.getElementById('confirmarnuevacontra').value;
+        let errorCorreo = document.getElementById('errorCorreoOlvidar');
+        let errornuevacontra = document.getElementById('errornuevacontra');
+        let errorConfirmarnuevacontra = document.getElementById('errorConfirmarnuevacontra');
+
+        errorCorreo.textContent = '';
+        errornuevacontra.textContent = '';
+        errorConfirmarnuevacontra.textContent = '';
+
+        const requisitos = [];
+        if (!/[A-Z]/.test(nuevacontra)) requisitos.push('al menos una letra mayúscula');
+        if (!/[a-z]/.test(nuevacontra)) requisitos.push('al menos una letra minúscula');
+        if (!/[!@#$%^&*(),.?":{}|<>]/.test(nuevacontra)) requisitos.push('al menos un carácter especial');
+        if (!/\d/.test(nuevacontra)) requisitos.push('al menos un dígito');
+        if (nuevacontra.length <= 8) requisitos.push('más de 8 caracteres');
+
+        if (!correo) {
+            errorCorreo.textContent = 'El correo electrónico es obligatorio.';
+        }
+        if (!nuevacontra) {
+            errornuevacontra.textContent = 'La nueva contraseña es obligatoria.';
+        }
+        if (nuevacontra !== confirmarnuevacontra) {
+            errorConfirmarnuevacontra.textContent = 'Las contraseñas no coinciden.';
+        }
+        if (requisitos.length > 0) {
+            errornuevacontra.textContent = 'La nueva contraseña debe cumplir con los siguientes requisitos: ' + requisitos.join(', ');
+        }
+
+        if (correo && nuevacontra && confirmarnuevacontra === nuevacontra && requisitos.length === 0) {
+            localStorage.setItem('contraseña', nuevacontra);
+            alert('Contraseña restablecida exitosamente');
+            window.location.href = "iniciar.html"; 
+        }
+    });
+</script>
+
+</body>
+</html>

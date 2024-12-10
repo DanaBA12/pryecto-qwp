@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/styles.css">
+    <title>Inicio de Sesión</title>
+    
+</head>
+<body>
+
+    <h2>Iniciar Sesión</h2>
+    <form id="InicioSesion">
+        <label for="usuario">Usuario:</label>
+        <input type="text" id="usuario" required>
+        <span class="error" id="errorUsuario"></span>
+        <br><br>
+        
+        <label for="contraseña">Contraseña:</label>
+        <input type="password" id="contraseña" required>
+        <span class="error" id="errorContraseña"></span>
+        <br><br>
+        
+        <button type="submit">Iniciar Sesión</button>
+    </form>
+    <p><a href="olvido.html">Olvidé mi contraseña</a></p>
+    <a href="index.html">Aun no te registras? Crea una cuenta</a>
+
+
+<script>
+    document.getElementById('InicioSesion').addEventListener('submit', function(event) {
+        event.preventDefault();
+        let usuario = document.getElementById('usuario').value;
+        let contraseña = document.getElementById('contraseña').value;
+        let errorUsuario = document.getElementById('errorUsuario');
+        let errorContraseña = document.getElementById('errorContraseña');
+
+        errorUsuario.textContent = '';
+        errorContraseña.textContent = '';
+
+        if (!usuario) {
+            errorUsuario.textContent = 'El usuario es obligatorio.';
+        }
+        if (!contraseña) {
+            errorContraseña.textContent = 'La contraseña es obligatoria.';
+        }
+
+        if (usuario && contraseña) {
+            let usuarioAlmacenado = localStorage.getItem('usuario');
+            let contraseñaAlmacenada = localStorage.getItem('contraseña');
+
+            if (usuario === usuarioAlmacenado && contraseña === contraseñaAlmacenada) {
+                window.location.href = "https://danaba12.github.io/lading-page-prod/";
+            } else {
+                if (usuario !== usuarioAlmacenado) {
+                    errorUsuario.textContent = 'El usuario no existe.';
+                }
+                if (contraseña !== contraseñaAlmacenada) {
+                    errorContraseña.textContent = 'La contraseña es incorrecta.';
+                }
+            }
+        }
+    });
+</script>
+
+</body>
+</html>

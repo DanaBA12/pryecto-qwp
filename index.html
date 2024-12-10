@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/styles.css">
+    <title>Registro</title>
+  
+</head>
+<body>
+
+    <h2>Registro</h2>
+    <form id="formularioRegistro">
+        <label for="nombre">Nombre:</label>
+        <input type="text" id="nombre" required>
+        <span class="error" id="errorNombre"></span>
+        <br><br>
+        
+        <label for="correo">Correo:</label>
+        <input type="email" id="correo" required>
+        <span class="error" id="errorCorreo"></span>
+        <br><br>
+        
+        <label for="usuario">Usuario:</label>
+        <input type="text" id="usuario" required>
+        <span class="error" id="errorUsuario"></span>
+        <br><br>
+        
+        <label for="contraseña">Contraseña:</label>
+        <input type="password" id="contraseña" required>
+        <span class="error" id="errorContraseña"></span>
+        <br><br>
+        
+        <label for="confirmacion">Confirmar Contraseña:</label>
+        <input type="password" id="confirmacion" required>
+        <span class="error" id="errorconfirmacion"></span>
+        <br><br>
+        
+        <button type="submit">Registrarse</button>
+    </form>
+    <a href="iniciar.html">Ya tengo una cuenta</a>
+    <span class="exito" id="mensajeExito"></span>
+
+
+<script>
+    document.getElementById('formularioRegistro').addEventListener('submit', function(event) {
+        event.preventDefault();
+        let nombre = document.getElementById('nombre').value;
+        let correo = document.getElementById('correo').value;
+        let usuario = document.getElementById('usuario').value;
+        let contraseña = document.getElementById('contraseña').value;
+        let confirmacion = document.getElementById('confirmacion').value;
+
+        let errorNombre = document.getElementById('errorNombre');
+        let errorCorreo = document.getElementById('errorCorreo');
+        let errorUsuario = document.getElementById('errorUsuario');
+        let errorContraseña = document.getElementById('errorContraseña');
+        let errorconfirmacion = document.getElementById('errorconfirmacion');
+        let mensajeExito = document.getElementById('mensajeExito');
+
+        errorNombre.textContent = '';
+        errorCorreo.textContent = '';
+        errorUsuario.textContent = '';
+        errorContraseña.textContent = '';
+        errorconfirmacion.textContent = '';
+        mensajeExito.textContent = '';
+
+        const requisitos = [];
+        if (!/[A-Z]/.test(contraseña)) requisitos.push('al menos una letra mayúscula');
+        if (!/[a-z]/.test(contraseña)) requisitos.push('al menos una letra minúscula');
+        if (!/[!@#$%^&*(),.?":{}|<>]/.test(contraseña)) requisitos.push('al menos un carácter especial');
+        if (!/\d/.test(contraseña)) requisitos.push('al menos un dígito');
+        if (contraseña.length <= 8) requisitos.push('más de 8 caracteres');
+
+        if (!nombre) {
+            errorNombre.textContent = 'El nombre es obligatorio.';
+        }
+        if (!correo) {
+            errorCorreo.textContent = 'El correo es obligatorio.';
+        }
+        if (!usuario) {
+            errorUsuario.textContent = 'El usuario es obligatorio.';
+ }
+        if (!contraseña) {
+            errorContraseña.textContent = 'La contraseña es obligatoria.';
+        }
+        if (contraseña !== confirmacion) {
+            errorconfirmacion.textContent = 'Las contraseñas no coinciden.';
+        }
+        if (requisitos.length > 0) {
+            errorContraseña.textContent = 'La contraseña debe cumplir con los siguientes requisitos: ' + requisitos.join(', ');
+        }
+
+        if (nombre && correo && usuario && contraseña && contraseña === confirmacion && requisitos.length === 0) {
+            localStorage.setItem('usuario', usuario);
+            localStorage.setItem('contraseña', contraseña);
+            mensajeExito.textContent = 'Cuenta creada exitosamente';
+            setTimeout(function() {
+                window.location.href = "iniciar.html";
+            }, 1000);
+        }
+    });
+</script>
+
+</body>
+</html>
